@@ -1,0 +1,33 @@
+# Assuming this script is in the same directory as your Django settings.py file
+
+import os
+import django
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ecommerce_project.settings")
+django.setup()
+
+from ecommerce_app.models import Product
+
+# Create 15 different products
+products_data = [
+    {'product_no': 'P001', 'description': 'Laptop', 'price': 999.99, 'image': 'static/images/laptop.jpg', 'category': 'Electronics'},
+    {'product_no': 'P002', 'description': 'Running Shoes', 'price': 89.99, 'image': 'static/images/shoes.jpg', 'category': 'Footwear'},
+    {'product_no': 'P003', 'description': 'Smartphone', 'price': 699.99, 'image': 'static/images/smartphone.jpg', 'category': 'Electronics'},
+    {'product_no': 'P004', 'description': 'Men\'s Watch', 'price': 149.99, 'image': 'static/images/watch.jpg', 'category': 'Accessories'},
+    {'product_no': 'P005', 'description': 'Coffee Maker', 'price': 49.99, 'image': 'static/images/coffee_maker.jpg', 'category': 'Home and Kitchen'},
+    {'product_no': 'P006', 'description': 'Gaming Console', 'price': 399.99, 'image': 'static/images/gaming_console.jpg', 'category': 'Electronics'},
+    {'product_no': 'P007', 'description': 'Backpack', 'price': 39.99, 'image': 'static/images/backpack.jpg', 'category': 'Accessories'},
+    {'product_no': 'P008', 'description': 'Desk Chair', 'price': 129.99, 'image': 'static/images/desk_chair.jpg', 'category': 'Furniture'},
+    {'product_no': 'P009', 'description': 'Fitness Tracker', 'price': 79.99, 'image': 'static/images/fitness_tracker.jpg', 'category': 'Electronics'},
+    {'product_no': 'P010', 'description': 'Digital Camera', 'price': 299.99, 'image': 'static/images/digital_camera.jpg', 'category': 'Electronics'},
+    {'product_no': 'P011', 'description': 'Winter Jacket', 'price': 149.99, 'image': 'static/images/winter_jacket.jpg', 'category': 'Clothing'},
+    {'product_no': 'P012', 'description': 'Wireless Headphones', 'price': 129.99, 'image': 'static/images/headphones.jpg', 'category': 'Electronics'},
+    {'product_no': 'P013', 'description': 'Cordless Vacuum', 'price': 199.99, 'image': 'static/images/vacuum_cleaner.jpg', 'category': 'Home and Kitchen'},
+    {'product_no': 'P014', 'description': 'Dining Table Set', 'price': 499.99, 'image': 'static/images/dining_table.jpg', 'category': 'Furniture'},
+    {'product_no': 'P015', 'description': 'Bluetooth Speaker', 'price': 59.99, 'image': 'static/images/bluetooth_speaker.jpg', 'category': 'Electronics'},
+]
+
+for product_data in products_data:
+    Product.objects.create(**product_data)
+
+print("15 Products created successfully!")
