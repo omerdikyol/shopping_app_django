@@ -29,9 +29,13 @@ def home(request):
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
-    return render(request, 'product_detail.html', {'product': product})
+    # Get categories with counts
+    categories_with_counts = Product.objects.values('category').annotate(count=Count('category')).order_by('-count')[:5]
+    return render(request, 'product_detail.html', {'product': product, 'categories_with_counts': categories_with_counts})
 
 def category_search(request, category):
     # Use exact match for category
     products = Product.objects.filter(category__exact=category)
-    return render(request, 'search_results.html', {'search_results': products, 'query': category})
+    # Get categories with counts
+    categories_with_counts = Product.objects.values('category').annotate(count=Count('category')).order_by('-count')[:5]
+    return render(request, 'search_results.html', {'search_results': products, 'query': category, 'categories_with_counts': categories_with_counts})
