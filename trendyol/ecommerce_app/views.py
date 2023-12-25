@@ -25,6 +25,16 @@ def home(request):
     # Get categories with counts
     categories_with_counts = Product.objects.values('category').annotate(count=Count('category')).order_by('-count')[:5]
 
+    if query:
+        unique_categories = set()
+        unique_prices = set()
+        for product in products:
+            if product.category not in unique_categories:
+                unique_categories.add(product.category)
+            if product.price not in unique_prices:
+                unique_prices.add(product.price)
+        return render(request, 'search_results.html', {'search_results': products, 'query': query, 'categories_with_counts': categories_with_counts, 'unique_categories': unique_categories, 'unique_prices': unique_prices})
+
     return render(request, 'home.html', {'products': products, 'query': query, 'categories_with_counts': categories_with_counts})
 
 def product_detail(request, product_id):
@@ -38,4 +48,12 @@ def category_search(request, category):
     products = Product.objects.filter(category__exact=category)
     # Get categories with counts
     categories_with_counts = Product.objects.values('category').annotate(count=Count('category')).order_by('-count')[:5]
-    return render(request, 'search_results.html', {'search_results': products, 'query': category, 'categories_with_counts': categories_with_counts})
+    unique_categories = set()
+    unique_prices = set()
+    for product in products:
+        if product.category not in unique_categories:
+            unique_categories.add(product.category)
+        if product.price not in unique_prices:
+            unique_prices.add(product.price)
+
+    return render(request, 'search_results.html', {'search_results': products, 'query': category, 'categories_with_counts': categories_with_counts, 'unique_categories': unique_categories, 'unique_prices': unique_prices})

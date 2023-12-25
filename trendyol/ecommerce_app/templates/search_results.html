@@ -3,12 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Shopping</title>
+    <title>Trendyol - Online Shopping</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .pagination .page-item.active .page-link {
-            background-color: orange;
-            border-color: orange;
+            background-color: green;
+            border-color: green;
+        }
+
+        .navbar-brand {
+            color: black;
+        }
+
+        .card {
+            border: none;
+        }
+
+        .card-img-top {
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .card-title {
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .card-text {
+            font-size: 10px;
+            color: #666666;
+        }
+
+        .badge {
+            background-color: green;
+            border-color: green;
+        }
+
+        .list-group-item {
+            border: none;
+        }
+
+        .list-group-item a {
+            color: #333333;
+        }
+
+        .list-group-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .btn-primary {
+            background-color: green;
+            border-color: green;
+        }
+
+        .btn-primary:hover {
+            background-color: #00cc00;
+            border-color: #00cc00;
+        }
+
+        .product-card {
+            margin-bottom: 1rem;
+        }
+
+        .product-card .card-body {
+            padding: 0.5rem;
+        }
+
+        .navbar-brand {
+            margin-right: 1rem;
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-form input[type="text"] {
+            margin-right: 0.5rem;
+        }
+
+        .navbar-nav {
+            background-color: white;
+        }
+
+        .col-md-2 {
+            max-width: 16.666667%;
+        }
+
+        .search-result {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 0.25rem;
+            text-decoration: none;
+            color: #333333;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .search-result-header {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333333;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .search-result:hover {
+            background-color: #f0f0f0;
+        }
+
+        .search-result img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-right: 0.5rem;
+        }
+
+        .search-result span {
+            float: right;
+            color: #999999;
+            font-size: 12px;
+            font-weight: normal;
+        }
+
+        .search-result:nth-child(odd) {
+            background-color: #e6fbd3;
+        }
+
+        .search-result:nth-child(even) {
+            background-color: lightgray;
+        }
+
+        /* Add this CSS code to style the filter section */
+        .filter-section {
+            border: 1px solid #e0e0e0;
+            padding: 1rem;
+        }
+
+        .filter-section h4 {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        .filter-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .filter-section li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .filter-section input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+
+        .filter-section label {
+            font-size: 12px;
+            color: #666666;
+        }
+
+        .filter-section a {
+            font-size: 12px;
+            color: green;
+            text-decoration: none;
+        }
+
+        .filter-section a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -53,32 +221,64 @@
 </nav>
 
 <div class="container mt-4">
-    <h1>Search Results</h1>
+    <h1>Displaying {{ search_results|length }} results for "{{ query }}"</h1>
 
-    <!-- Display search results -->
+    <!-- Display filter section on the left -->
     <div class="row">
-        {% if search_results %}
-            {% for product in search_results %}
-                <div class="col-md-4 mb-4">
-                    <a href="{% url 'product_detail' product.id %}" style="text-decoration: none; color: inherit;">
-                        <div class="card">
-                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.description }}">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ product.description }}</h5>
-                                <p class="card-text">Price: ${{ product.price }}</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>No results found.</p>
-        {% endif %}
-    </div>
+        <div class="col-md-3">
+            <div class="filter-section">
+                <h4>Categories</h4>
+                <ul>
+                    {% for category in unique_categories %}
+                        <li>
+                            <input type="checkbox" id="category{{ forloop.counter }}" name="category" value="{{ category }}">
+                            <label for="category{{ forloop.counter }}">{{ category }}</label>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <a href="#">Show all</a>
+            </div>
+            
+            <div class="filter-section">
+                <h4>Prices</h4>
+                <ul>
+                    {% for price in unique_prices %}
+                        <li>
+                            <input type="checkbox" id="price{{ forloop.counter }}" name="price" value="{{ price }}">
+                            <label for="price{{ forloop.counter }}">{{ price }}</label>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <a href="#">Show all</a>
+            </div>
+        </div>
 
+        <!-- Display search results on the right -->
+        <div class="col-md-9">
+            <div class="row">
+                {% if search_results %}
+                    {% for product in search_results %}
+                        <div class="col-md-4 mb-4">
+                            <a href="{% url 'product_detail' product.id %}" style="text-decoration: none; color: inherit;">
+                                <div class="card">
+                                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.description }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ product.description }}</h5>
+                                        <p class="card-text">Price: ${{ product.price }}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No results found.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
