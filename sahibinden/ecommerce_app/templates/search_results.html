@@ -3,52 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Results - Online Shopping</title>
+    <title>Online Shopping</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        .pagination .page-item.active .page-link {
+            background-color: #ff6600;
+            border-color: #ff6600;
+        }
+
+        .navbar-brand {
+            color: white;
+        }
+
+        .card {
+            border: none;
+        }
+
+        .card-img-top {
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .card-title {
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .card-text {
+            font-size: 10px;
+            color: #666666;
+        }
+
+        .badge {
+            background-color: #ff6600;
+            border-color: #ff6600;
+        }
+
+        .list-group-item {
+            border: none;
+        }
+
+        .list-group-item a {
+            color: #333333;
+        }
+
+        .list-group-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .btn-primary {
+            background-color: #ff6600;
+            border-color: #ff6600;
+        }
+
+        .btn-primary:hover {
+            background-color: #ff9933;
+            border-color: #ff9933;
+        }
+
+        .list-group-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .btn-primary {
+            background-color: #ff6600;
+            border-color: #ff6600;
+        }
+
+        .btn-primary:hover {
+            background-color: #ff9933;
+            border-color: #ff9933;
+        }
+
+        .product-card {
+            margin-bottom: 1rem;
+        }
+
+        .product-card .card-body {
+            padding: 0.5rem;
+        }
+
+        .navbar-brand {
+            margin-right: 1rem;
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-form input[type="text"] {
+            margin-right: 0.5rem;
+        }
+
+        .navbar-nav {
+            background-color: #3f475d;
+        }
+
+        .col-md-2 {
+            max-width: 16.666667%;
+        }
+
+        .search-result {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 0.25rem;
+            text-decoration: none;
+            color: #333333;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .search-result-header {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333333;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .search-result:hover {
+            background-color: #f0f0f0;
+        }
+
+        .search-result img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-right: 0.5rem;
+        }
+
+        .search-result span {
+            float: right;
+            color: #999999;
+            font-size: 12px;
+            font-weight: normal;
+        }
+
+        .search-result:nth-child(odd) {
+            background-color: #e6fbd3;
+        }
+
+        .search-result:nth-child(even) {
+            background-color: lightgray;
+        }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-        <a class="navbar-brand" href="/">Online Shop</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <form action="{% url 'home' %}" method="GET" class="form-inline">
-                        <input type="text" name="q" class="form-control" placeholder="Search for products..." value="{{ query }}">
-                        <button type="submit" class="btn btn-primary" style="background-color: blue; border-color: blue;">Search</button>
-                    </form>
-                </li>
+
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #3f475d;">
+    <a class="navbar-brand" href="/">Online Shop</a>
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <form action="{% url 'home' %}" method="GET" class="form-inline search-form">
+                <input type="text" name="q" class="form-control" placeholder="Search for products..." value="{{ query }}" style="background-color: #2f3546; border-color: #2f3546;">
+                <button type="submit" class="btn" style="background-color: #2f3546;">
+                    <i class="fas fa-search" style="color: #ffffff;"></i>
+                </button>
+            </form>
+        </li>
+    </ul>
+</nav>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <!-- Add more breadcrumb items based on your structure -->
+        <li class="breadcrumb-item active" aria-current="page">Products</li>
+    </ol>
+</nav>
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- Display categories with counts on the left -->
+        <div class="col-md-3">
+            <p>Categories</p>
+            <ul class="list-group">
+                {% for category_count in categories_with_counts %}
+                    <li class="d-flex justify-content-between align-items-center">
+                        <a href="{% url 'category_search' category_count.category %}">
+                            {{ category_count.category}} ({{ category_count.count }})
+                        </a>
+                    </li>
+                {% endfor %}
             </ul>
         </div>
-    </nav>
-<div class="container mt-4">
-    <!-- Display search results -->
-    <div class="row">
-        {% if search_results %}
-            {% for product in search_results %}
-                <div class="col-md-4 mb-4">
-                    <a href="{% url 'product_detail' product.id %}" style="text-decoration: none; color: inherit;">
-                        <div class="card">
-                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.description }}">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ product.description }}</h5>
-                                <p class="card-text">Price: ${{ product.price }}</p>
-                            </div>
+        <!-- Display products on the right -->
+        <div class="col-md-9">
+
+            <!-- Display Title and line separation -->
+            <div class="row">
+                <div class="col-md-12">
+                    <p>Products</p>
+                    <hr>
+                </div>
+            </div>
+
+            <!-- Display products -->
+            
+            <div class="row">
+                {% if search_results %}
+
+                <div class="col-md-12 mb-4">
+                    <div class="search-result-header">
+                        <div>
+                            <p>Image</p>
                         </div>
+                        <hr>
+                        <div>
+                            <p>Name</p>
+                        </div>
+                        <hr>
+                        <div>
+                            <p>Date</p>
+                        </div>
+                        <hr>
+                        <div>
+                            <p>Price</p>
+                        </div>
+                    </div>
+                {% for product in search_results %}
+                <div class="col-md-12 mb-4">
+                    <a href="{% url 'product_detail' product.id %}" class="search-result">
+                        <img src="{{ product.image.url }}" alt="{{ product.description }}">
+                        <hr>
+                        <div>
+                            <p>{{ product.description }}</p>
+                            <p>{{ product.location }}</p>
+                            
+                        </div>
+                        <hr>
+                        <hr>
+                        <div>
+                            <!-- date created -->
+                            <p>{{ product.created_at }}</p>
+                        </div>
+                        <hr> 
+                        <div>
+                            <p>${{ product.price }}</p>
+                        </div>
+                        
                     </a>
                 </div>
-            {% endfor %}
-        {% else %}
-            <p>No results found.</p>
-        {% endif %}
+                {% endfor %}
+                {% else %}
+                <p>No results found.</p>
+                {% endif %}
+            </div>
+            
+            <!-- Pagination -->
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-center">
+                        <ul class="pagination">
+                            {% if products.has_previous %}
+                                <li class="page-item"><a class="page-link"  href="?page={{ products.previous_page_number }}">Previous</a></li>
+                            {% endif %}
+                            {% for i in products.paginator.page_range %}
+                                <li class="page-item {% if i == products.number %}active{% endif %}">
+                                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                                </li>
+                            {% endfor %}
+                            {% if products.has_next %}
+                                <li class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}">Next</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

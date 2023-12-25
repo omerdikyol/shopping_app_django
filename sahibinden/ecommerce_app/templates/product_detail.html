@@ -14,50 +14,86 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #3f475d;">
     <a class="navbar-brand" href="/">Online Shop</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <form action="{% url 'home' %}" method="GET" class="form-inline">
-                    <input type="text" name="q" class="form-control" placeholder="Search for products..." value="{{ query }}">
-                    <button type="submit" class="btn btn-primary" style="background-color: blue; border-color: blue;">Search</button>
-                </form>
-            </li>
-        </ul>
-    </div>
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <form action="{% url 'home' %}" method="GET" class="form-inline search-form">
+                <input type="text" name="q" class="form-control" placeholder="Search for products..." value="{{ query }}" style="background-color: #2f3546; border-color: #2f3546;">
+                <button type="submit" class="btn" style="background-color: #2f3546;">
+                    <i class="fas fa-search" style="color: #ffffff;"></i>
+                </button>
+            </form>
+        </li>
+    </ul>
+</nav>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'category_search' product.category %}">{{ product.category }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ product.description }}</li>
+    </ol>
 </nav>
 
 <div class="container mt-4">
     
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item"><a href="{% url 'category_search' product.category %}">{{ product.category }}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ product.description }}</li>
-        </ol>
-    </nav>
+    <div class="row">
+        <h2>{{ product.description }}</h2>
+    </div>
+    <hr style="height: 3px;"/>
 
     <div class="row">
         <div class="col-md-6">
-            <img src="/{{ product.image }}" class="img-fluid" alt="{{ product.description }}">
+            <!-- Use the image from the screenshot as the source -->
+            <img src="/{{ product.image }}" class="img-fluid" alt="2023 BMW 320i M SPORT BROOKLYN GRİ 21.000 KM %20KDV">
+            <!-- Add a carousel of thumbnail images below the main image -->
+            <div id="carouselExampleIndicators" class="carousel slide mt-4" data-ride="carousel">
+                <ol class="carousel-indicators">
+                  <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                  <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                  <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                  <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                </ol>
+              </div>
         </div>
         <div class="col-md-6">
-            <h2>{{ product.description }}</h2>
+            <h3>Price: ${{ product.price }}</h3>
             <p>Product No: {{ product.product_no }}</p>
             <p>Category: {{ product.category }}</p>
-            <p>Price: ${{ product.price }}</p>
 
             <button class="btn btn-primary"  style="background-color: blue; border-color: blue;">Add to Cart</button>
+            <!-- Add a contact button that opens a modal with the seller's information -->
+            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#contactModal">
+                Contact Seller
+              </button>
+              
+              <!-- The modal -->
+              <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="contactModalLabel">Contact Seller</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p>Name: Muhammet Uzunoglu</p>
+                      <p>Phone: 0532 123 45 67</p>
+                      <p>Email: muhammet@uzunoglu.com</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
         </div>
     </div>
 </div>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
