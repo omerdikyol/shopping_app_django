@@ -352,14 +352,14 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
             <li class="breadcrumb-item"><a href="{% url 'category_search' product.category %}">{{ product.category }}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ product.description }}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
         </ol>
     </nav>
 
     <div class="row">
         <div class="col-md-6">
             <!-- Use the image from the screenshot as the source -->
-            <img src="/{{ product.image }}" class="img-fluid product-image" alt="{{ product.description }}">
+            <img src="/{{ product.image }}" class="img-fluid product-image" alt="{{ product.name }}">
             <!-- Add a row of thumbnail images below the main image -->
             <!-- <div class="product-thumbnails">
                 <img src="thumbnail1.jpg" alt="Thumbnail 1">
@@ -370,8 +370,9 @@
         </div>
         <div class="col-md-6">
             <!-- Use the text from the screenshot as the content -->
+            <p>Product No: {{ product.product_no }}</p>
             <div class="product-info">
-                <h2 class="product-name">{{ product.description }}</h2>
+                <h2 class="product-name">{{ product.name }}</h2>
                 <p class="product-price">${{ product.price }}</p>
                 <div class="product-rating">
                     <i class="fas fa-star"></i>
@@ -384,8 +385,13 @@
                 <div class="product-labels">
                     <div><i class="fas fa-certificate"></i>LOW PRICE</div>
                 </div>
+                <hr>
+                <div>
+                    <p>Description:</p>
+                    <p class="product-description">{{ product.description }}</p>
+                </div>
                 <div class="product-options">
-                    <!-- <label for="size">Beden:</label>
+                    <!-- <label for="size">Beden:</label
                     <select id="size" name="size">
                         <option value="S">S</option>
                         <option value="M">M</option>

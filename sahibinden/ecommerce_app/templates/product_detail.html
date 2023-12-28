@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Shopping</title>
+    <title>Sahibinden</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .pagination .page-item.active .page-link {
@@ -15,7 +15,8 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #3f475d;">
-    <a class="navbar-brand" href="/">Online Shop</a>
+    {% load static %}
+    <a class="navbar-brand" href="/"><img src="/static/images/logo.png" alt="Logo" width="200" height="50"></a>
     <ul class="navbar-nav mr-auto">
         <li class="nav-item">
             <form action="{% url 'home' %}" method="GET" class="form-inline search-form">
@@ -31,14 +32,14 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/">Home</a></li>
         <li class="breadcrumb-item"><a href="{% url 'category_search' product.category %}">{{ product.category }}</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{ product.description }}</li>
+        <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
     </ol>
 </nav>
 
 <div class="container mt-4">
     
     <div class="row">
-        <h2>{{ product.description }}</h2>
+        <h2>{{ product.name }}</h2>
     </div>
     <hr style="height: 3px;"/>
 
@@ -59,7 +60,9 @@
         <div class="col-md-6">
             <h3>Price: ${{ product.price }}</h3>
             <p>Product No: {{ product.product_no }}</p>
+            <p>Description: {{ product.description }}</p>
             <p>Category: {{ product.category }}</p>
+            <p>City: {{ product.city }}</p>
 
             <button class="btn btn-primary"  style="background-color: blue; border-color: blue;">Add to Cart</button>
             <!-- Add a contact button that opens a modal with the seller's information -->
@@ -78,9 +81,9 @@
                       </button>
                     </div>
                     <div class="modal-body">
-                      <p>Name: Muhammet Uzunoglu</p>
+                      <p>Name: John Doe</p>
                       <p>Phone: 0532 123 45 67</p>
-                      <p>Email: muhammet@uzunoglu.com</p>
+                      <p>Email: john@doe.com</p>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

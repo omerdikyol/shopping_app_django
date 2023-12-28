@@ -89,7 +89,8 @@
 
 
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #3f475d;">
-    <a class="navbar-brand" href="/">Online Shop</a>
+    {% load static %}
+    <a class="navbar-brand" href="/"><img src="/static/images/logo.png" alt="Logo" width="200" height="50"></a>
     <ul class="navbar-nav mr-auto">
         <li class="nav-item">
             <form action="{% url 'home' %}" method="GET" class="form-inline search-form">
@@ -135,9 +136,9 @@
                         <a href="{% url 'product_detail' product.id %}" style="text-decoration: none; color: inherit;">
                             <div class="card">
                                 {% load static %}
-                                <img src="{{ product.image }}" class="card-img-top" alt="{{ product.description }}">
+                                <img src="{{ product.image }}" class="card-img-top" alt="{{ product.name }}">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ product.description }}</h5>
+                                    <h5 class="card-title">{{ product.name }}</h5>
                                     <p class="card-text">Price: ${{ product.price }}</p>
                                 </div>
                             </div>

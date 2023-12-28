@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Shopping</title>
+    <title>Sahibinden</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .pagination .page-item.active .page-link {
@@ -156,7 +156,8 @@
 
 
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #3f475d;">
-    <a class="navbar-brand" href="/">Online Shop</a>
+    {% load static %}
+    <a class="navbar-brand" href="/"><img src="/static/images/logo.png" alt="Logo" width="200" height="50"></a>
     <ul class="navbar-nav mr-auto">
         <li class="nav-item">
             <form action="{% url 'home' %}" method="GET" class="form-inline search-form">
@@ -228,10 +229,10 @@
                 {% for product in search_results %}
                 <div class="col-md-12 mb-4">
                     <a href="{% url 'product_detail' product.id %}" class="search-result">
-                        <img src="{{ product.image.url }}" alt="{{ product.description }}">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
                         <hr>
                         <div>
-                            <p>{{ product.description }}</p>
+                            <p>{{ product.name }}</p>
                             <p>{{ product.location }}</p>
                             
                         </div>
